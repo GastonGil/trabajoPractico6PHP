@@ -5,12 +5,17 @@ información completa. Crea un objeto de tipo "Coche" con valores aleatorios y m
 información en pantalla.
 */
 
-class coche{
+class Coche{
+  const DEFAULT_MARCA = "Sin marca";
+  const DEFAULT_MODELO = "Sin modelo";
+  const DEFAULT_COLOR = "Sin color";
+
+
   private $marca;
   private $modelo;
   private $color;
 
-  function __construct( $marca = "Sin marca", $modelo = "Sin modelo",$color = "Sin color"){
+  function __construct( $marca = self::DEFAULT_MARCA, $modelo = self::DEFAULT_MODELO,$color = self::DEFAULT_COLOR){
     $this->setmarca($marca);
     $this->setmodelo($modelo);
     $this->setcolor($color);
@@ -40,11 +45,12 @@ class coche{
 
   public function mostrarPropiedades()
   {
-    return get_object_vars($this);
+    echo "Marca: " . $this->marca . PHP_EOL;
+    echo "Modelo: " . $this->modelo . PHP_EOL;
+    echo "Color: " . $this->color . PHP_EOL;
   }  
 }
 
 $coche = new coche("Fiat","Palio","Rojo");
-foreach ($coche->mostrarPropiedades() as $propiedad => $value) {
-  echo "$propiedad = $value".PHP_EOL;
-}
+$coche->mostrarPropiedades();
+

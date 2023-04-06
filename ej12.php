@@ -6,11 +6,14 @@ pantalla. Luego, modifica alguna calificación y muestra el nuevo promedio.
 */
 
 class Alumno {
+  const DEFAULT_NOMBRE = "Sin nombre";
+  const DEFAULT_EDAD = "Sin edad";
+
   private $nombre;
   private $edad;
   private $clasificaciones;
 
-  function __construct($nombre = "Sin nombre", $edad = "Sin edad", ...$clasificaciones)
+  function __construct($nombre = self::DEFAULT_NOMBRE, $edad = self::DEFAULT_EDAD, ...$clasificaciones)
   {
     $this->setNombre($nombre);
     $this->setEdad($edad);
@@ -26,13 +29,28 @@ class Alumno {
     return $this->edad;
   }
   public function setEdad(int $edad){
+    if(!is_numeric($edad)||$edad<3){
+      echo "La edad no puede ser menor a 3." . PHP_EOL;
+    }else{
     $this->edad = $edad;
+    }
   }
   public function getclasificaciones(){
     return $this->clasificaciones;
   }
   public function setclasificaciones(...$clasificaciones){
-    $this->clasificaciones = $clasificaciones;
+    $correcto = true;
+    if (!empty($clasificaciones)) {
+      foreach ($clasificaciones as $calificacion) {
+        if (!is_numeric($calificacion) || $calificacion < 0 || $calificacion > 10) {
+          echo ("Las calificaciones deben estar en el rango de 0 a 10.") . PHP_EOL;
+          $correcto = false;
+        }
+      }
+    }  
+    if($correcto){
+      $this->clasificaciones = $clasificaciones;
+    }
   }
 
   public function promedioClasificaciones(){
@@ -40,7 +58,9 @@ class Alumno {
   }
   public function mostrarPropiedades()
   {
-    return get_object_vars($this);
+    echo "Nombre: " .$this->nombre .PHP_EOL;
+    echo "Edad: " .$this->edad .PHP_EOL;
+    echo "Clasificaciones: " .implode(",",$this->clasificaciones).PHP_EOL;
   }
 
   public function modificarNota($notaAModificar, $nuevaNota)
@@ -58,12 +78,4 @@ echo $alumno->promedioClasificaciones().PHP_EOL ;
 $alumno->modificarNota(1, 10);
 echo $alumno->promedioClasificaciones().PHP_EOL ;
 
-foreach ($alumno->mostrarPropiedades() as $propiedad => $value) {
-  if($value == $alumno->getClasificaciones()){
-    for ($i=0;$i<count($alumno->getClasificaciones()); $i++) {
-      echo "Nota: ".$i+1 ."=" .$alumno->getClasificaciones()[$i] .PHP_EOL;
-    }
-  }else{
-    echo "$propiedad = $value".PHP_EOL;
-  }
-}
+$alumno->mostrarPropiedades();

@@ -3,11 +3,15 @@
 sus atributos en pantalla.*/
 
 class Perro {
+  const DEFAULT_RAZA = "Sin raza";
+  const DEFAULT_EDAD = "Sin edad";
+  const DEFAULT_COLOR = "Sin color";
+
   private $raza;
   private $edad;
   private $color;
 
-  function __construct($raza = "Sin raza", $edad = "Sin edad", $color = "Sin color")
+  function __construct($raza = self::DEFAULT_RAZA, $edad = self::DEFAULT_EDAD, $color = self::DEFAULT_COLOR)
   {
     $this->setraza($raza);
     $this->setEdad($edad);
@@ -33,19 +37,26 @@ class Perro {
   }
 }
 
+do {
+  $raza = trim(readline("Ingrese la raza del perro: "));
+} while (empty($raza));
+echo PHP_EOL;
 
-$datosPerro=[];
-array_push($datosPerro,readline("Ingrese el raza del perro: "));
+do {
+  $edad = (int) trim(readline("Ingrese la edad del perro: "));
+} while ($edad <= 0);
 echo PHP_EOL;
-array_push($datosPerro,readline("Ingrese la edad del perro: "));
-echo PHP_EOL;
-array_push($datosPerro,readline("Ingrese el color del perro: "));
-echo PHP_EOL;
-$perro = new Perro($datosPerro[0],$datosPerro[1],$datosPerro[2]);
 
-echo $perro->getraza();
+do {
+  $color = trim(readline("Ingrese el color del perro: "));
+} while (empty($color));
+echo PHP_EOL;
+
+$perro = new Perro($raza, $edad, $color);
+
+echo $perro->getRaza();
 echo PHP_EOL;
 echo $perro->getEdad();
 echo PHP_EOL;
-echo $perro->getcolor();
+echo $perro->getColor();
 echo PHP_EOL;

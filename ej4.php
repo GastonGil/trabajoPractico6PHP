@@ -6,10 +6,12 @@ pantalla.
 */
 
 class Rectangulo{
+  const DEFAULT_BASE = 0;
+  const DEFAULT_ALTURA = 0;
   private $base;
   private $altura;
 
-  function __construct($base = 0,$altura = 0){
+  function __construct($base = self::DEFAULT_BASE,$altura = self::DEFAULT_ALTURA){
     $this->setBase($base);
     $this->setAltura($altura);
   }
@@ -29,9 +31,9 @@ class Rectangulo{
   }
 
   public function area(){
-    echo ($this->base * $this->altura/2);
+    return ($this->base * $this->altura/2);
   }
 }
 
 $rectangulo = new Rectangulo(floatval(mt_rand()),floatval(mt_rand()));
-$rectangulo->area();
+echo $rectangulo->area();

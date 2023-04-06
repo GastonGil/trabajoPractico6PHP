@@ -7,11 +7,12 @@ operaciones de depósito y retiro, y muestra el saldo final en pantalla.
 */
 
 class Banco {
+  const DEFAULT_NOMBRE = "Sin nombre";
+  const DEFAULT_CANTIDADDEDINERO = 0;
   private $nombre;
   private $cantidadDinero;
-  private $genero;
 
-  function __construct($nombre = "Sin nombre", $cantidadDinero = 0)
+  function __construct($nombre = self::DEFAULT_NOMBRE, $cantidadDinero = self::DEFAULT_CANTIDADDEDINERO)
   {
     $this->setNombre($nombre);
     $this->setcantidadDinero($cantidadDinero);
@@ -26,28 +27,33 @@ class Banco {
     return $this->cantidadDinero;
   }
   public function setcantidadDinero(float $cantidadDinero){
-    $this->cantidadDinero = $cantidadDinero;
+    if(!is_numeric($cantidadDinero)||$cantidadDinero < 0){
+      echo "La cantidad de dinero inicial debe ser mayor a 0.".PHP_EOL;
+    }else{
+      $this->cantidadDinero = $cantidadDinero;
+    }
   }
 
   public function depositar(float $cantidadADepositar){
-    if($cantidadADepositar > 0){
-      $this->cantidadDinero+=$cantidadADepositar;
-    }else{
+    if(!is_numeric($cantidadADepositar)||$cantidadADepositar < 0){
       echo "La cantidad a depositar debe ser mayor a 0.".PHP_EOL;
+    }else{
+      $this->cantidadDinero += $cantidadADepositar;
     }
   }
 
   public function retirar(float $cantidadARetirar)
   {
-    if ($cantidadARetirar > 0 && $cantidadARetirar < $this->cantidadDinero) {
+    if (is_numeric($cantidadARetirar) && $cantidadARetirar > 0 && $cantidadARetirar <= $this->cantidadDinero) {
       $this->cantidadDinero -= $cantidadARetirar;
     }else{
       echo "La cantidad a retirar debe ser mayor a 0 y menor a la cantidad que posee en la cuenta.".PHP_EOL;
     }  
   }  
-  public function mostrarPropicantidadDineroes()
+  public function mostrarPropiedades()
   {
-    return get_object_vars($this);
+    echo "Nombre: " . $this->nombre . PHP_EOL;
+    echo "Cantidad de dinero: " . $this->cantidadDinero . PHP_EOL;
   }  
 }
 
@@ -56,7 +62,7 @@ function crearOpcion(&$opcion){
     echo "1-Depositar.".PHP_EOL;
     echo "2-Retirar.".PHP_EOL;
     echo "3-Fin".PHP_EOL;
-    $opcion = readline();
+    $opcion = trim(readline());
     if($opcion == 3){
     echo "Fin del programa.".PHP_EOL;
     }
@@ -65,20 +71,20 @@ function crearOpcion(&$opcion){
 
 function crearRespuesta(&$respuesta){
   do{
-    $respuesta = readline("Desea continuar? Si/no: ");
+    $respuesta = strtolower(trim(readline("Desea continuar? Si/no: ")));
   }while(strcmp($respuesta,"si")!=0 && strcmp($respuesta,"no")!=0);
   $respuesta = (strcmp($respuesta,"si")==0) ? true : false;
 }
 
 function crearNumeroValidado(){
   do{
-    $n = readline("Ingrese el valor: ");
+    $n = trim(readline("Ingrese el valor: "));
     echo PHP_EOL;
-  }while(!is_numeric($n));
+  }while(!is_numeric($n)||empty($n));
   return floatval ($n);
 }
 
-$banco = new Banco(readline("Ingrese su nombre: "));
+$banco = new Banco(trim(readline("Ingrese su nombre: ")));
 
 do {
   crearOpcion($opcion);
@@ -91,6 +97,7 @@ do {
       break;
   }
 } while ($opcion != 3);
-foreach ($libro->mostrarPropiedades() as $propiedad => $value) {
-  echo "$propiedad = $value".PHP_EOL;
-}
+$banco->mostrarPropiedades();
+
+
+

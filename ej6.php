@@ -6,10 +6,13 @@ pantalla.
 */
 
 class Empleado{
+  const DEFAULT_NOMBRE = "Sin nombre";
+  const DEFAULT_SALARIO = 0;
+
   private $nombre;
   private $salario;
 
-  function __construct( $nombre = "sin nombre", $salario = 0){
+  function __construct( $nombre = self::DEFAULT_NOMBRE, $salario = self::DEFAULT_SALARIO ){
     $this->setNombre($nombre);
     $this->setSalario($salario);
   }
@@ -28,14 +31,17 @@ class Empleado{
   }  
   public function setSalario(float $salario)
   {
-    $this->nombre = $salario;
+    if(!is_numeric($salario)||$salario<0){
+      echo "El salario debe ser mayor a 0".PHP_EOL;
+    }else{
+      $this->salario = $salario;
+    }
   }  
   public function salarioAnual()
   {
-    echo $this->salario * 12;
+    return $this->salario * 12;
   }  
 }
 
 $empleado = new Empleado("Pepe", floatval(mt_rand(1, 500000)));
-
-$empleado->salarioAnual();
+echo $empleado->salarioAnual();

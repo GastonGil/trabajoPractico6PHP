@@ -7,7 +7,11 @@ class Persona {
   private $edad;
   private $genero;
 
-  function __construct($nombre = "Sin nombre", $edad = "Sin edad", $genero = "Sin genero")
+  const DEFAULT_NOMBRE = "Sin nombre";
+  const DEFAULT_EDAD = "Sin edad";
+  const DEFAULT_GENERO = "Sin genero";
+
+  function __construct($nombre = self::DEFAULT_NOMBRE, $edad = self::DEFAULT_EDAD, $genero = self::DEFAULT_GENERO)
   {
     $this->setNombre($nombre);
     $this->setEdad($edad);
@@ -22,8 +26,11 @@ class Persona {
   public function getEdad(){
     return $this->edad;
   }
-  public function setEdad(int $edad){
-    $this->edad = $edad;
+  public function setEdad($edad){
+    if (!is_numeric($edad) || $edad < 1) {
+      echo "La edad no puede ser menor a 1.". PHP_EOL;
+    }  
+    $this->edad =(int) $edad;
   }
   public function getGenero(){
     return $this->genero;
@@ -35,14 +42,16 @@ class Persona {
 
 $personas = [];
 for ($i = 0; $i < 3; $i++){
-  $datos=[];
-  array_push($datos,readline("Ingrese el nombre de la persona: "));
-  echo PHP_EOL;
-  array_push($datos,readline("Ingrese la edad de la persona: "));
-  echo PHP_EOL;
-  array_push($datos,readline("Ingrese el genero de la persona: "));
-  echo PHP_EOL;
-  array_push($personas,$persona = new Persona($datos[0],$datos[1],$datos[2]));
+  do{
+    $nombre = trim(readline("Ingrese el nombre de la persona: "));
+    echo PHP_EOL;
+    $edad = (int)trim(readline("Ingrese la edad de la persona: "));
+    echo PHP_EOL;
+    $genero = trim(readline("Ingrese el genero de la persona: "));
+    echo PHP_EOL;
+  }while(empty($nombre)||empty($genero)||empty($edad));
+  
+  array_push($personas,$persona = new Persona($nombre,$edad,$genero));
 }
 
 foreach ($personas as $persona) {

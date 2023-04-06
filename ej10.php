@@ -6,11 +6,14 @@ información en pantalla.
 */
 
 class Persona {
+  const DEFAULT_NOMBRE = "Sin nombre";
+  const DEFAULT_EDAD = "Sin edad";
+  const DEFAULT_GENERO = "Sin genero";
   private $nombre;
   private $edad;
   private $genero;
 
-  function __construct($nombre = "Sin nombre", $edad = "Sin edad", $genero = "Sin genero")
+  function __construct($nombre = self::DEFAULT_NOMBRE, $edad = self::DEFAULT_EDAD, $genero = self::DEFAULT_GENERO)
   {
     $this->setNombre($nombre);
     $this->setEdad($edad);
@@ -26,7 +29,10 @@ class Persona {
     return $this->edad;
   }
   public function setEdad(int $edad){
-    $this->edad = $edad;
+    if (!is_numeric($edad) || $edad < 1) {
+      echo "La edad no puede ser menor a 1.". PHP_EOL;
+    }  
+    $this->edad =(int) $edad;
   }
   public function getGenero(){
     return $this->genero;
@@ -36,11 +42,11 @@ class Persona {
   }
   public function mostrarPropiedades()
   {
-    return get_object_vars($this);
+    echo "Nombre: " . $this->nombre . PHP_EOL;
+    echo "Edad: " . $this->edad . PHP_EOL;
+    echo "Genero: " . $this->genero . PHP_EOL;
   }  
 }
 
 $persona = new Persona("Gastón",mt_rand(18,100),"Masculino");
-foreach ($libro->mostrarPropiedades() as $propiedad => $value) {
-  echo "$propiedad = $value".PHP_EOL;
-}
+$persona->mostrarPropiedades();

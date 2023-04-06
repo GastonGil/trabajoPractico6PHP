@@ -51,7 +51,7 @@ function crearOpcion(&$opcion){
     echo "3-Multiplicar.".PHP_EOL;
     echo "4-Dividir.".PHP_EOL;
     echo "5-Fin".PHP_EOL;
-    $opcion = readline();
+    $opcion = trim(readline());
     if($opcion == 5){
     echo "Fin del programa.".PHP_EOL;
     }
@@ -60,7 +60,7 @@ function crearOpcion(&$opcion){
 
 function crearRespuesta(&$respuesta){
   do{
-    $respuesta = readline("Desea continuar? Si/no: ");
+    $respuesta = strtolower(trim(readline("Desea continuar? Si/no: ")));
   }while(strcmp($respuesta,"si")!=0 && strcmp($respuesta,"no")!=0);
   $respuesta = (strcmp($respuesta,"si")==0) ? true : false;
 }

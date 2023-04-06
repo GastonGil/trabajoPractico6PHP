@@ -5,8 +5,9 @@ objeto de tipo "Círculo" con valor aleatorio y muestra su área en pantalla.
 */
 
 class Circulo{
+  const DEFAULT_RADIO = 0;
   private $radio;
-  function __construct($radio = 0){
+  function __construct($radio = self::DEFAULT_RADIO){
     $this->setRadio($radio);
   }
 
@@ -19,9 +20,9 @@ class Circulo{
   }
   public function area()
   {
-    echo M_PI * pow($this->radio, 2);
+    return M_PI * pow($this->radio, 2);
   }  
 }
 
 $circulo = new Circulo(floatval(mt_rand()));
-$circulo->area();
+echo $circulo->area();

@@ -6,11 +6,14 @@ información en pantalla.
 */
 
 class Libro{
+  const DEFAULT_TITULO = "Sin titulo";
+  const DEFAULT_AUTOR = "Sin autor";
+  const DEFAULT_EDITORIAL = "Sin editorial";
   private $titulo;
   private $autor;
   private $editorial;
 
-  function __construct( $titulo="Sin titulo", $autor = "sin Autor",$editorial="Sin editorial"){
+  function __construct( $titulo=self::DEFAULT_TITULO, $autor = self::DEFAULT_AUTOR,$editorial=self::DEFAULT_EDITORIAL){
     $this->settitulo($titulo);
     $this->setautor($autor);
     $this->seteditorial($editorial);
@@ -40,11 +43,11 @@ class Libro{
 
   public function mostrarPropiedades()
   {
-    return get_object_vars($this);
+    echo "Titulo: " . $this->titulo . PHP_EOL;
+    echo "Autor: " . $this->autor . PHP_EOL;
+    echo "Editorial: " . $this->editorial . PHP_EOL;
   }  
 }
 
 $libro = new Libro("El lado B del amor","Gabriel Rolón");
-foreach ($libro->mostrarPropiedades() as $propiedad => $value) {
-  echo "$propiedad = $value".PHP_EOL;
-}
+$libro->mostrarPropiedades();
